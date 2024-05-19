@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la commande N°{{ order.id }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h3 class="text-center mb-4">Détails de la commande N°{{ order.id }}</h3>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="table-dark">
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix unitaire</th>
+                        <th>Prix total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for orderItem in order.orderItems %}
+                        <tr>
+                            <td>{{ orderItem.product.name }}</td>
+                            <td>{{ orderItem.quantity }}</td>
+                            <td>{{ orderItem.product.price }} €</td>
+                            <td>{{ orderItem.quantity * orderItem.product.price }} €</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">Aucun produit dans cette commande</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="text-center mt-4 mb-5">
+                    <a class="btn btn-primary" href="{{ path('app_manager_commandes_preparation') }}">Retour à la liste des commandes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

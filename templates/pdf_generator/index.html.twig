@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order Details{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Customer Email</th>
+                        <td>{{ order.customer.email }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Order ID</th>
+                        <td>{{ order.id }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Delivery Address</th>
+                        <td>{{ order.deliveryAddress.streetNumber }} {{ order.deliveryAddress.street }}, {{ order.deliveryAddress.zipcode }} {{ order.deliveryAddress.city }}, {{ order.deliveryAddress.country }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Total</th>
+                        <td>{{ order.total }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

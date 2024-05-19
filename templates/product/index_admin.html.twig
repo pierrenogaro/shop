@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All Products{% endblock %}
+
+{% block body %}
+    <h1 class="text-center mt-3">Tous les produits</h1>
+
+    <table class="table table-bordered table-striped mt-5">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Description</th>
+            <th scope="col">Prix</th>
+            <th scope="col">Catégorie</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in products|reverse %}
+            <tr>
+                <th scope="row">{{ product.id }}</th>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.price }} €</td>
+                <td>{{ product.category }}</td>
+                <td class="col-2">
+                    <a href="{{ path("app_show_admin", {id:product.id}) }}" class="btn btn-primary me-2">Voir</a>
+                    <a href="{{ path("app_cart_add_admin", {id:product.id, quantity:1}) }}" class="btn btn-success"><i class="bi bi-bag-plus"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

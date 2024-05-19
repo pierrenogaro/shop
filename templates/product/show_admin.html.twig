@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="my-5">
+        <a class="btn btn-secondary" href="{{ path("app_product_admin") }}" >Retour</a>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Description</th>
+            <th scope="col">Prix</th>
+            <th scope="col">Action</th>
+            <th scope="col" style="width: 400px;">Images</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">{{ product.id }}</th>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.price }} €</td>
+            <td>{{ product.category }}</td>
+            <td>
+                <div class="d-flex flex-wrap align-items-center">
+                    {% for image in product.images %}
+                        <div class="me-3 mb-3 position-relative">
+                            <img class="d-block img-fluid rounded-3" style="width: 70px; height:auto; object-fit: cover;" src="{{ vich_uploader_asset(image) }}" alt="">
+                            <a class="position-absolute top-0 end-0 mt-2 me-2 btn btn-close" href="{{ path("delete_product_image", {id:image.id}) }}" aria-label="Supprimer l'image"></a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="d-flex flex-column align-items-center">
+        <div class="d-flex my-5">
+            <a class="btn btn-warning me-3" href="{{ path("app_edit_product", {id:product.id}) }}">Éditer</a>
+            <a class="btn btn-danger" href="{{ path("app_delete_product", {id:product.id}) }}">Supprimer</a>
+        </div>
+
+        <div class="col-4">
+            <h3 class="card-title text-center">Ajouter une image</h3>
+            <div class="card-body">
+                {{ form_start(formImage, {attr:{action:path('app_show_admin', {id:product.id})}}) }}
+                {{ form_row(formImage.imageFile) }}
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Ajouter</button>
+                </div>
+                {{ form_end(formImage) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

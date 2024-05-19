@@ -1,7 +1,10 @@
 twig:
     file_name_pattern: '*.twig'
     form_themes: ['bootstrap_5_layout.html.twig']
+    globals:
+        cart_global: '@App\Service\CartService'
 
 when@test:
     twig:
         strict_variables: true
+

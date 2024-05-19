@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+    {% if app.user %}
+        <div class="container">
+            <h3 class="mt-5 text-center">Profil de {{ app.user.email }}</h3>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card mt-5">
+                        <div class="card-header">
+                            <h3 class="text-center">Vos méthodes de paiement :</h3>
+                        </div>
+                        <div class="card-body">
+                            {% for paymentMethod in app.user.paymentMethods %}
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div>{{ paymentMethod.cardNumber }}</div>
+                                    <div>
+                                        <a href="{{ path("app_edit_paymentmethod", {id:paymentMethod.id}) }}" class="btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>
+                                        <a href="{{ path("app_delete_paymentmethod", {id:paymentMethod.id}) }}" class="btn btn-danger btn-sm">X</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <a href="{{ path("app_create_paymentmethod") }}" class="btn btn-warning btn-block">Ajouter une méthode de paiement</a>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h3 class="text-center">Vos adresses :</h3>
+                        </div>
+                        <div class="card-body">
+                            {% for address in app.user.addresses %}
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div>{{ address.streetNumber }} rue {{ address.street }}</div>
+                                    <div>{{ address.zipcode }} {{ address.city }}, {{ address.country }}</div>
+                                    <div>
+                                        <a href="{{ path("app_edit_address", {id:address.id}) }}" class="btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>
+                                        <a href="{{ path("app_delete_address", {id:address.id}) }}" class="btn btn-danger btn-sm">X</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <a href="{{ path('app_address_create') }}" class="btn btn-warning btn-block">Ajouter une adresse</a>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4 mb-4">
+                        <div class="card-header">
+                            <h3 class="text-center">Historique :</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Commande</th>
+                                    <th>Produit</th>
+                                    <th>Prix</th>
+                                    <th>Sous-total</th>
+                                    <th>Quantité</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for order in app.user.orders %}
+                                    {% for item in order.orderItems %}
+                                        <tr>
+                                        {% if loop.first %}
+                                            <td rowspan="{{ order.orderItems.count }}">{{ order.id }}</td>
+                                        {% endif %}
+                                        <td>{{ item.product.name }}</td>
+                                        <td>{{ item.product.price }}</td>
+                                        <td>{{ item.product.price * item.quantity}} €</td>
+                                        <td>{{ item.quantity }}</td>
+                                            <td>
+                                                {% if order.deliveryStatus == 0 %}
+                                                    <p class="text-danger">En attente de livraison</p>
+                                                {% elseif order.deliveryStatus == 1 %}
+                                                    <p class="text-primary">En cours de livraison</p>
+                                                {% elseif order.deliveryStatus == 2 %}
+                                                    <p class="text-success">Livré</p>
+                                                {% endif %}
+                                            </td>
+                                            <td><a href="{{ path('app_pdf_generator', {id:order.id}) }}" class="btn btn-success">PDF</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

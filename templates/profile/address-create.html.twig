@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">Ajouter une adresse</h5>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(form) }}
+
+                        <div class="mb-3">
+                            <label for="{{ form.streetNumber.vars.id }}" class="form-label">Numéro de rue</label>
+                            {{ form_widget(form.streetNumber, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.streetNumber) }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.street.vars.id }}" class="form-label">Rue</label>
+                            {{ form_widget(form.street, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.street) }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.zipcode.vars.id }}" class="form-label">Code postal</label>
+                            {{ form_widget(form.zipcode, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.zipcode) }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.city.vars.id }}" class="form-label">Ville</label>
+                            {{ form_widget(form.city, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.city) }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.phone.vars.id }}" class="form-label">Téléphone</label>
+                            {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.phone) }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.country.vars.id }}" class="form-label">Pays</label>
+                            {{ form_widget(form.country, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.country) }}
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">{{ btnValue }}</button>
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

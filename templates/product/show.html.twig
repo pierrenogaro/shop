@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block body %}
+    <div>
+        <a href="{{ path('app_product') }}" class="btn btn-secondary">Retour</a>
+    </div>
+    <div class="text-center">
+        <h1>Page {{ product.name }}</h1>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-lg-6 mb-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="position-relative overflow-hidden">
+                    {% include 'image/image_or_not_image.html.twig' with {object: product} %}
+                    <div class="overlay"></div>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-3">{{ product.name }}</h5>
+                    <p class="card-text text-muted">{{ product.description }}</p>
+                    <h6 class="card-subtitle mb-3 text-primary">{{ product.price }} €</h6>
+                    <p class="card-text text-danger p-2">Catégorie : {{ product.category }}</p>
+                    <h6 class="card-subtitle mb-3 text-primary">Note : {{ product.average }}</h6>
+                </div>
+                <div class="card-footer border-top-0 bg-transparent">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">Ajouté le {{ product.createdAt|date('d/m/Y') }}</small>
+                        <a href="{{ path('app_cart_add', {id: product.id, quantity: 1}) }}" class="btn btn-primary btn-sm">Ajouter au panier</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            {{ form_start(formMark, {attr: {action: path('app_mark', {id: product.id})}}) }}
+            <div class="d-flex mb-5">
+                {{ form_widget(formMark.number, {'attr': {'class': 'form-control flex-grow-1', 'placeholder': 'Mettre une note entre 0 et 5...'}}) }}
+                <button type="submit" class="btn btn-success ml-2">Noter</button>
+            </div>
+            {{ form_end(formMark) }}
+
+            {{ form_start(form, {attr: {action: path('app_comment_create', {id: product.id})}}) }}
+            {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': 5}}) }}
+            <div class="d-flex justify-content-end mt-3">
+                <button type="submit" class="btn btn-success ml-2">Commenter</button>
+            </div>
+            {{ form_end(form) }}
+
+            <div class="mt-5 d-flex flex-column row-gap-5 align-items-center mb-3">
+                {% for comment in product.comments|reverse %}
+                    <div class="card d-flex flex-row justify-content-between border-dark col-12 mb-1">
+                        <div class="p-2">{{ comment.content }}</div>
+                        <div class="p-2"><small>{{ comment.createdAt|date('d/m/Y H:i') }}</small></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

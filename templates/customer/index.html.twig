@@ -1,0 +1,39 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block body %}
+    <div class="my-4"><h1>Tous les produits</h1></div>
+    <div class="mt-5 row container">
+        {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <div class="card-title d-flex justify-content-between">
+                            <h1>{{ product.name }}</h1>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        {% for image in product.images %}
+                            <img class="d-block img-fluid rounded-3 me-3" style="width: 200px; height:auto; object-fit: cover;" src="{{ vich_uploader_asset(image) }}" alt="">
+                            <hr>
+                        {% endfor %}
+
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text">{{ product.price }} €</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <small class="text-muted mt-3 d-flex flex-column">
+                            <div>Ajouté le {{ product.createdAt|date("d/m/Y H:i") }}</div>
+                        </small>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <a href="{{ path("app_customer_show", {id: product.id}) }}" class="btn btn-primary mt-3">Voir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

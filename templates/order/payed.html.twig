@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if order.status == 1 %}
+        Paiement Réussi
+    {% else %}
+        Paiement Échoué
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% if order.status == 1 %}
+                    <div class="alert alert-success" role="alert">
+                        <strong>Succès :</strong> Votre paiement a été effectué avec succès !
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Erreur :</strong> Votre paiement a échoué. Veuillez réessayer.
+                    </div>
+                {% endif %}
+                <a href="{{ path('app_product') }}" class="btn btn-primary">Continuer la visite</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

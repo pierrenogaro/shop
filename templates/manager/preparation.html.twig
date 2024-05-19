@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commandes en préparation{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h3 class="text-center mb-4">Commandes en Préparation <span class="text-danger">({{ orderCount }})</span></h3>
+                <table class="table table-white table-striped table-bordered">
+                    <thead>
+                    <tr class="table-dark">
+                        <th>Numéro</th>
+                        <th>Commande</th>
+                        <th>Quantité</th>
+                        <th>Statut</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>N°{{ order.id }}</td>
+                            <th scope="row">
+                                {% for orderItem in order.orderItems %}
+                                    {{ orderItem.product.name }}<br>
+                                {% endfor %}
+                            </th>
+                            <td>
+                                {% for orderItem in order.orderItems %}
+                                    {{ orderItem.quantity }}<br>
+                                {% endfor %}
+                            </td>
+
+                            <td><p class="text-danger">Préparation</p></td>
+                            <td>
+                                <a href="{{ path('app_manager_commandes_show', {'id': order.id}) }}" class="btn btn-primary"><i class="bi bi-eye"></i></a>
+                                <a href="{{ path('app_manager_commandes_termine_status', {'id': order.id}) }}" class="btn btn-success"><i class="bi bi-check"></i></a>
+                                <a href="{{ path('app_manager_commandes_rupture_status', {'id': order.id}) }}" class="btn btn-danger"><i class="bi bi-exclamation-triangle"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="text-center mt-4 mb-5">
+                    <a class="btn btn-success" href="{{ path('app_manager_commandes_termine') }}">Commandes Terminées</a>
+                    <a class="btn btn-danger" href="{{ path('app_manager_commandes_rupture') }}">Erreur de Commandes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

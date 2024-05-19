@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order Summary{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h3 class="text-center mb-4">Récapitulatif de commande</h3>
+
+                <table class="table " style="line-height: 3rem;">
+                    <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Prix</th>
+                        <th>Quantité</th>
+                        <th>Sous-total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in order.orderItems %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.product.price }}€</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.quantity * item.product.price }}€</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3"><strong>Total:</strong></td>
+                        <td>{{ order.total }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><strong>Billing Address : </strong></td>
+                        <td>
+                            {{ order.billingAddress.streetNumber }} {{ order.billingAddress.street }}, {{ order.billingAddress.zipcode }} {{ order.billingAddress.city }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><strong>Delivery Address : </strong></td>
+                        <td>
+                            {{ order.deliveryAddress.streetNumber }} {{ order.deliveryAddress.street }}, {{ order.deliveryAddress.zipcode }} {{ order.deliveryAddress.city }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><strong>Payment Method : </strong></td>
+                        <td>
+                            {{ order.paymentMethod.cardNumber}}
+                        </td>
+                    </tr>
+
+                    </tfoot>
+                </table>
+                <div class="text-center mt-4">
+                    <a href="{{ path('app_pay', {id:order.id}) }}" type="submit" class="btn btn-success">Continuer vers la commande</a>
+                </div>
+
+                <div class="text-center">
+                    <a class="btn btn-lg btn-primary" type="submit">Payer par stripe</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

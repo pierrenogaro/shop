@@ -64,7 +64,7 @@ class ManagerController extends AbstractController
     public function status(Order $order, EntityManagerInterface $entityManager)
     {
         $deliveryStatus = $order->getDeliveryStatus();
-        $newStatus = ($deliveryStatus + 1) % 3;  // This will cycle through 0, 1, 2
+        $newStatus = ($deliveryStatus + 1) % 3;
         $order->setDeliveryStatus($newStatus);
 
         $entityManager->persist($order);
